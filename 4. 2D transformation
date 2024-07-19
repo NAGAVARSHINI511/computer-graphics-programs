@@ -1,0 +1,94 @@
+#include <GL/glut.h>
+
+float squareTranslateX = 0.0f;
+float squareTranslateY = 0.0f;
+float squareAngle = 0.0f;
+float squareScaleX = 1.0f;
+float squareScaleY = 1.0f;
+
+float triangleTranslateX = 0.0f;
+float triangleTranslateY = 0.0f;
+float triangleAngle = 0.0f;
+float triangleScaleX = 1.0f;
+float triangleScaleY = 1.0f;
+
+void initGL() {
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glColor3f(0.0f, 0.0f, 0.0f);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluOrtho2D(-50.0, 50.0, -50.0, 50.0);
+}
+
+void display() {
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    // Draw Square
+    glPushMatrix();
+    glTranslatef(squareTranslateX, squareTranslateY, 0.0f);
+    glRotatef(squareAngle, 0.0f, 0.0f, 1.0f);
+    glScalef(squareScaleX, squareScaleY, 1.0f);
+    glBegin(GL_QUADS);
+    glVertex2f(-10.0f, -10.0f);
+    glVertex2f(10.0f, -10.0f);
+    glVertex2f(10.0f, 10.0f);
+    glVertex2f(-10.0f, 10.0f);
+    glEnd();
+    glPopMatrix();
+
+    // Draw Triangle
+    glPushMatrix();
+    glTranslatef(triangleTranslateX, triangleTranslateY, 0.0f);
+    glRotatef(triangleAngle, 0.0f, 0.0f, 1.0f);
+    glScalef(triangleScaleX, triangleScaleY, 1.0f);
+    glBegin(GL_TRIANGLES);
+    glVertex2f(0.0f, 10.0f);
+    glVertex2f(-10.0f, -10.0f);
+    glVertex2f(10.0f, -10.0f);
+    glEnd();
+    glPopMatrix();
+
+    glFlush();
+}
+
+void keyboard(unsigned char key, int x, int y) {
+    switch (key) {
+        // Square transformations
+        case 'w': squareTranslateY += 1.0f; break;
+        case 's': squareTranslateY -= 1.0f; break;
+        case 'a': squareTranslateX -= 1.0f; break;
+        case 'd': squareTranslateX += 1.0f; break;
+        case 'q': squareAngle += 5.0f; break;
+        case 'e': squareAngle -= 5.0f; break;
+        case 'z': squareScaleX *= 1.1f; squareScaleY *= 1.1f; break;
+        case 'x': squareScaleX *= 0.9f; squareScaleY *= 0.9f; break;
+
+        // Triangle transformations
+        case 'i': triangleTranslateY += 1.0f; break;
+        case 'k': triangleTranslateY -= 1.0f; break;
+        case 'j': triangleTranslateX -= 1.0f; break;
+        case 'l': triangleTranslateX += 1.0f; break;
+        case 'u': triangleAngle += 5.0f; break;
+        case 'o': triangleAngle -= 5.0f; break;
+        case 'n': triangleScaleX *= 1.1f; triangleScaleY *= 1.1f; break;
+        case 'm': triangleScaleX *= 0.9f; triangleScaleY *= 0.9f; break;
+
+        default: return;
+    }
+    glutPostRedisplay();
+}
+
+int main(int argc, char** argv) {
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+    glutInitWindowSize(500, 500);
+    glutInitWindowPosition(100, 100);
+    glutCreateWindow("2D Transformations");
+
+    initGL();
+    glutDisplayFunc(display);
+    glutKeyboardFunc(keyboard);
+
+    glutMainLoop();
+    return 0;
+}
