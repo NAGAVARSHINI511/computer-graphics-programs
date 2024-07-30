@@ -1,0 +1,38 @@
+import cv2
+import numpy as np
+
+# Define the path to the image
+image_path = "/home/ds-021/circle.jpg"
+
+# Read the image from the specified path
+image = cv2.imread(image_path)
+
+# Check if the image was successfully loaded
+if image is None:
+    print("Failed to load the image")
+else:
+    # Display the original image
+    cv2.imshow("Original Image", image)
+
+    # Rotate the image by 45 degrees around its center
+    angle = 45
+    center = (image.shape[1] // 2, image.shape[0] // 2)
+    rotation_matrix = cv2.getRotationMatrix2D(center, angle, 1.0)
+    rotated_image = cv2.warpAffine(image, rotation_matrix, (image.shape[1], image.shape[0]))
+
+    # Scale the image by a factor of 0.5
+    scale_factor = 0.5
+    scaled_image = cv2.resize(image, None, fx=scale_factor, fy=scale_factor)
+
+    # Translate the image by (100, -50)
+    translation_matrix = np.float32([[1, 0, 100], [0, 1, -50]])
+    translated_image = cv2.warpAffine(image, translation_matrix, (image.shape[1], image.shape[0]))
+
+    # Display the transformed images
+    cv2.imshow("Rotated Image", rotated_image)
+    cv2.imshow("Scaled Image", scaled_image)
+    cv2.imshow("Translated Image", translated_image)
+
+    # Wait for a key press and close all windows
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
