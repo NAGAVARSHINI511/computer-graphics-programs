@@ -1,0 +1,34 @@
+import cv2
+import numpy as np
+
+# Define the path to the image
+image_path = "/home/ds-021/4JK21CS046/zoro.jpg"
+
+# Read the image from the specified path
+image = cv2.imread(image_path)
+
+# Check if the image was successfully loaded
+if image is None:
+    print("Failed to load image")
+else:
+    # Display the original image
+    cv2.imshow("Original Image", image)
+
+    # Apply average blur to the image
+    blur_kernel_size = (5, 5)
+    blurred_image = cv2.blur(image, blur_kernel_size)
+    cv2.imshow("Blurred Image", blurred_image)
+
+    # Apply Gaussian blur to the image
+    gaussian_blur_kernel_size = (5, 5)
+    gaussian_blur_image = cv2.GaussianBlur(image, gaussian_blur_kernel_size, 0)
+    cv2.imshow("Gaussian Blurred Image", gaussian_blur_image)
+
+    # Apply median blur to the image
+    median_blur_kernel_size = 5
+    median_blur_image = cv2.medianBlur(image, median_blur_kernel_size)
+    cv2.imshow("Median Blurred Image", median_blur_image)
+
+    # Wait for a key press and close all windows
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
